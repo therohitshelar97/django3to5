@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <style>
+        table,th,td{
+            border:2px solid red;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <h1>Home Page...</h1> 
+
+   <table width="900">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Iamges</th>
+        <th colspan="2">Action</th>
+    </tr>
+    {% for data12 in data %}
+    <tr>
+        <td>{{data12.id}}</td>
+        <td>{{data12.name}}</td>
+        <td>{{data12.age}}</td>
+        <td><img src={{data12.image.url}}  width="100"/></td>
+        <td>
+            <a href="{% url 'update' data12.id %}">Update</a>
+        </td>
+    </tr>
+    {% endfor %}
+
+   </table>
+</body>
+</html>
