@@ -1,7 +1,8 @@
-"""project5 URL Configuration
+"""
+URL configuration for project_template_inheritance project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.0/topics/http/urls/
+    https://docs.djangoproject.com/en/4.2/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -16,17 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from myapp import views
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('fetching/',views.Fetch,name="fetching"),
-    path('form/',views.Form, name="form"),
-    path('update/<int:id>',views.Update, name="update"),
-    path('animals/',views.Animals,name='animals'),
-    path('static1/',views.Static1),
-    path('orm/',views.Orm, name='orm')
+    path('base/',views.Base,name='base'),
+    path('home/',views.Home,name='home'),
+    path('about/',views.About,name='about'),
+    path('contact/',views.Contact,name='contact'),
+    path('navbar/',views.Navbar,name='navbar')
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
