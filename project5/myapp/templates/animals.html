@@ -22,9 +22,14 @@
                         <figure>
                             <img src={{data.image.url}} width="200" height="200"   />
                             <figcaption>
-                                {{data.name}} and {{data.age}}
+                               {{data.id}} {{data.name}} and {{data.age}}
                             </figcaption>
                         </figure>
+                        <form action="{% url 'addtocart' %}" method="post">
+                            {% csrf_token %}
+                            <input type="number" value={{data.id}} name="cid" />
+                            <input type="submit" value="Add_To_Cart" />
+                        </form>
                     </div>
 
                 </div>

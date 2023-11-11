@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from .models import django_abc
+from .models import django_abc,Cart
 from .forms import abc_form
 
 # Create your views here.
@@ -59,11 +59,19 @@ def Orm(request):
     # data = django_abc.objects.filter(age__gte=11)
     # data = django_abc.objects.filter(age__lte=11)
     # data = django_abc.objects.count()
-    data = django_abc.objects.aggregate(max('age',default=0) )
-    
-    
-    
-    
-    
+    data = django_abc.objects.aggregate(max('age',default=0))
 
     return render(request,'orm.html',{'data':data})
+
+def add_to_cart(request):
+    if request.method == "POST":
+        cid = request.POST.get('cid')
+        data = Cart.objects.create(django_abc_id=cid)
+        data.save()
+        return HttpResponseRedirect('/animals/')
+    
+def view_cart(request):
+    cart_fetch = Cart.objects.all().values_list('django_abc_id', flat=True)
+    cartitems = django_abc.objects.filter(id__in=cart_fetch)
+    print(cart_fetch)
+    return render(request,'viewcart.html', {'data':cartitems})

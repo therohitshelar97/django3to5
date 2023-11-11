@@ -26,7 +26,9 @@ urlpatterns = [
     path('update/<int:id>',views.Update, name="update"),
     path('animals/',views.Animals,name='animals'),
     path('static1/',views.Static1),
-    path('orm/',views.Orm, name='orm')
+    path('orm/',views.Orm, name='orm'),
+    path('addtocart/', views.add_to_cart,name='addtocart'),
+    path('viewcart/',views.view_cart, name="viewcart")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

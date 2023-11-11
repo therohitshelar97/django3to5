@@ -8,3 +8,6 @@ class django_abc(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Cart(models.Model):
+    django_abc = models.ForeignKey(django_abc, on_delete=models.CASCADE)
