@@ -29,11 +29,22 @@ def Update(request,id):
         pi = django_abc.objects.get(pk=id)
         fm = abc_form(instance=pi)
     return render(request,'update.html',{'form':fm})
+# def Delete(request,id):
+#     if request.method == "post":
+#         os
 
 
 def Animals(request):
     os = django_abc.objects.all()
-    return render(request, 'animals.html',{'os':os})
+    cart_fetch = Cart.objects.all().values_list('django_abc_id', flat=True)
+    cartitems = django_abc.objects.filter(id__in=cart_fetch)
+    count = cartitems.count()
+   
+    # dd = django_abc.objects.all().values_list('id',flat=True)
+    # f = django_abc.objects.filter(id__in=dd)
+    # f.delete()
+
+    return render(request, 'animals.html',{'os':os, 'count':count})
 
 def Static1(request):
     return render (request, 'static_image.html')
@@ -66,12 +77,26 @@ def Orm(request):
 def add_to_cart(request):
     if request.method == "POST":
         cid = request.POST.get('cid')
-        data = Cart.objects.create(django_abc_id=cid)
-        data.save()
+        item,data = Cart.objects.get_or_create(django_abc_id=cid)
+        print(item, data)
+
+        if not data:
+            item.quantity+=1
+            item.save()
         return HttpResponseRedirect('/animals/')
     
 def view_cart(request):
     cart_fetch = Cart.objects.all().values_list('django_abc_id', flat=True)
     cartitems = django_abc.objects.filter(id__in=cart_fetch)
+    count = cartitems.count()
     print(cart_fetch)
-    return render(request,'viewcart.html', {'data':cartitems})
+    return render(request,'viewcart.html', {'data':cartitems, 'count':count})
+
+def remove_cart(request,id):
+    if request.method == "POST":
+        os = Cart.objects.filter(django_abc_id=id)
+        print(os)
+        os.delete()
+        print(id)
+        return HttpResponseRedirect('/viewcart/')
+    

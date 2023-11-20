@@ -1,16 +1,35 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <title>
         Cart View
     </title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
 </head>
 <body>
-    {% for i in  data %}
-         <img src={{i.image.url}} width="200" height="200" />
-         <p>
-            {{i.name}} {{i.age}}
-         </p>
-    {% endfor %}
+   
+         
+    
+
+    <div class="container">
+        <div class="row mt-5">
+            {% for i in  data %}
+            <div class="col-4 shadow border">
+                <img src={{i.image.url}} width="100%" height="200"class='mt-1' />
+            <p>
+                {{i.name}} {{i.age}}
+            </p>
+               <form action="{% url 'removecart' i.id %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Remove" />
+               </form>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
 </body>
 </html>

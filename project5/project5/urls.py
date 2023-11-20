@@ -28,7 +28,8 @@ urlpatterns = [
     path('static1/',views.Static1),
     path('orm/',views.Orm, name='orm'),
     path('addtocart/', views.add_to_cart,name='addtocart'),
-    path('viewcart/',views.view_cart, name="viewcart")
+    path('viewcart/',views.view_cart, name="viewcart"),
+    path('removecart/<int:id>', views.remove_cart, name='removecart')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

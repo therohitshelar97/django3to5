@@ -4,6 +4,8 @@ from django.db import models
 class django_abc(models.Model):
     name = models.CharField(max_length=30)
     age = models.IntegerField()
+    price = models.IntegerField(null=True)
+    des = models.CharField(max_length=1000, null=True)
     image = models.ImageField(upload_to='Images',null=True,blank=True)
 
     def __str__(self):
@@ -11,3 +13,4 @@ class django_abc(models.Model):
     
 class Cart(models.Model):
     django_abc = models.ForeignKey(django_abc, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1, null=True)

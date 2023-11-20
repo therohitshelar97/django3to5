@@ -4,31 +4,39 @@
 <head>
     <title>Animals</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <style>
+        .hide{
+            display: none;
+        }
+    </style>
 </head>
 <body>
+    
    <div class="container">
     <div class="row mt-5">
         <div class="col-2">
            <p>Home</p>
            <p>Animals</p>
            <p>Dog</p>
-           <p>Cat</p>
+          <a href="{% url 'viewcart' %}"> <p>Cart Itenms_ {{count}}</p></a>
         </div>
         <div class="col-10">
             <div class="row ">
                 {% for data in os %}
-                <div class="col-3">
+                <div class="col-3 shadow border ">
                     <div>
                         <figure>
-                            <img src={{data.image.url}} width="200" height="200"   />
+                            <img src={{data.image.url}} width="100%" height="200" class="mt-2"   />
                             <figcaption>
-                               {{data.id}} {{data.name}} and {{data.age}}
+                               <p> Name : {{data.name}}, age : {{data.age}} month</p>
+                               <p>Price : {{data.price}}/</p> 
+                               <p>About {{data.name}} : {{data.des}} </p>
                             </figcaption>
                         </figure>
                         <form action="{% url 'addtocart' %}" method="post">
                             {% csrf_token %}
-                            <input type="number" value={{data.id}} name="cid" />
-                            <input type="submit" value="Add_To_Cart" />
+                            <input type="number" value={{data.id}} name="cid" class="hide" />
+                            <input type="submit" value="Add_To_Cart" class="mb-2" />
                         </form>
                     </div>
 
