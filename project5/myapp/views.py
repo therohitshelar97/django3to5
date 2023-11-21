@@ -85,12 +85,40 @@ def add_to_cart(request):
             item.save()
         return HttpResponseRedirect('/animals/')
     
+def cart_increse(request):
+    if request.method == "GET":
+        cid = request.GET.get('cid')
+        item,data = Cart.objects.get_or_create(django_abc_id=cid)
+        print(item, data)
+
+        if not data:
+            item.quantity+=1
+            item.save()
+        return HttpResponseRedirect('/viewcart/')
+    
+def cart_decrese(request):
+    if request.method == "GET":
+        cid = request.GET.get('cid')
+        item,data = Cart.objects.get_or_create(django_abc_id=cid)
+        print(item, data)
+
+        if not data:
+            item.quantity-=1
+            item.save()
+            if item.quantity<1:
+                item.delete()
+
+        return HttpResponseRedirect('/viewcart/')
+
+    
 def view_cart(request):
     cart_fetch = Cart.objects.all().values_list('django_abc_id', flat=True)
     cartitems = django_abc.objects.filter(id__in=cart_fetch)
     count = cartitems.count()
+
+    allq = Cart.objects.all()
     print(cart_fetch)
-    return render(request,'viewcart.html', {'data':cartitems, 'count':count})
+    return render(request,'viewcart.html', {'data':cartitems, 'count':count, 'quantity':allq})
 
 def remove_cart(request,id):
     if request.method == "POST":

@@ -20,6 +20,34 @@
             <p>
                 {{i.name}} {{i.age}}
             </p>
+               
+            {% for j in quantity  %}
+
+            {% if i.id == j.django_abc_id %}
+  
+              <h4>Quantity : {{j.quantity}}</h4>
+
+            {% endif %}
+
+            {% endfor %}
+
+            <div class="row">
+                <div class="col-6">
+                    <form action="{% url 'cartincrese' %}" method="get">
+                        <input type="number" value={{i.id}} name="cid" style="display: none;" />
+                        <input type="submit" value="+"/>
+                    </form>
+
+                </div>
+                <div class="col-6">
+                    <form action="{% url 'cartdecrese' %}" method="get">
+                        <input type="number" value={{i.id}} name="cid" style="display: none;" />
+                        <input type="submit" value="-"/>
+                    </form>
+                </div>
+            </div>
+
+
                <form action="{% url 'removecart' i.id %}" method="post">
                 {% csrf_token %}
                 <input type="submit" value="Remove" />

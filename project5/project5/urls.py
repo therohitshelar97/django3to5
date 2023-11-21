@@ -29,7 +29,9 @@ urlpatterns = [
     path('orm/',views.Orm, name='orm'),
     path('addtocart/', views.add_to_cart,name='addtocart'),
     path('viewcart/',views.view_cart, name="viewcart"),
-    path('removecart/<int:id>', views.remove_cart, name='removecart')
+    path('removecart/<int:id>', views.remove_cart, name='removecart'),
+    path('cartincrese/',views.cart_increse,name='cartincrese'),
+    path('cartdecrese/',views.cart_decrese,name='cartdecrese')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
