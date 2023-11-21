@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sign Up</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% for fm in form %}
+              {{fm.label_tags}} 
+              {{fm.label}} 
+               {{fm}} 
+               {{fm.error | striptags}}
+               <br><br>
+        {% endfor %}
+        <input type="submit" value="SignUp" />
+    </form>
+</body>
+</html>

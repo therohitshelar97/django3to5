@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect
 from .models import django_abc,Cart
-from .forms import abc_form
+from .forms import abc_form, SignUp_Form
+from django.contrib.auth import authenticate, login, logout
+
 
 # Create your views here.
 
@@ -128,3 +130,25 @@ def remove_cart(request,id):
         print(id)
         return HttpResponseRedirect('/viewcart/')
     
+def SignUp(request):
+    if request.method == "POST":
+        fm = SignUp_Form(request.POST)
+        if fm.is_valid():
+            fm.save()
+    else:
+        fm = SignUp_Form()
+    return render(request,'signup.html', {'form':SignUp_Form})
+
+def Login(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request,username=username,password=password)
+        if user is not None:
+            login(request,user)
+            return HttpResponseRedirect('/animals/')
+    
+    return render(request, 'login.html')
+
+
+
