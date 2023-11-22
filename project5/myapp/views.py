@@ -37,16 +37,20 @@ def Update(request,id):
 
 
 def Animals(request):
-    os = django_abc.objects.all()
-    cart_fetch = Cart.objects.all().values_list('django_abc_id', flat=True)
-    cartitems = django_abc.objects.filter(id__in=cart_fetch)
-    count = cartitems.count()
-   
-    # dd = django_abc.objects.all().values_list('id',flat=True)
-    # f = django_abc.objects.filter(id__in=dd)
-    # f.delete()
+    if request.user.is_authenticated:
+        os = django_abc.objects.all()
+        cart_fetch = Cart.objects.filter(user=request.user).values_list('django_abc_id', flat=True)
+        cartitems = django_abc.objects.filter(id__in=cart_fetch)
+        count = cartitems.count()
+        print(request.user)
+    
+        # dd = django_abc.objects.all().values_list('id',flat=True)
+        # f = django_abc.objects.filter(id__in=dd)
+        # f.delete()
 
-    return render(request, 'animals.html',{'os':os, 'count':count})
+        return render(request, 'animals.html',{'os':os, 'count':count})
+    else:
+        return HttpResponseRedirect('/login/')
 
 def Static1(request):
     return render (request, 'static_image.html')
@@ -77,58 +81,68 @@ def Orm(request):
     return render(request,'orm.html',{'data':data})
 
 def add_to_cart(request):
-    if request.method == "POST":
-        cid = request.POST.get('cid')
-        item,data = Cart.objects.get_or_create(django_abc_id=cid)
-        print(item, data)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            cid = request.POST.get('cid')
+            item,data = Cart.objects.get_or_create(django_abc_id=cid,user=request.user)
+            print(item, data)
 
-        if not data:
-            item.quantity+=1
-            item.save()
-        return HttpResponseRedirect('/animals/')
+            if not data:
+                item.quantity+=1
+                item.save()
+            return HttpResponseRedirect('/animals/')
     
 def cart_increse(request):
-    if request.method == "GET":
-        cid = request.GET.get('cid')
-        item,data = Cart.objects.get_or_create(django_abc_id=cid)
-        print(item, data)
+    if request.user.is_authenticated:
+        if request.method == "GET":
+            cid = request.GET.get('cid')
+            item,data = Cart.objects.get_or_create(django_abc_id=cid)
+            print(item, data)
 
-        if not data:
-            item.quantity+=1
-            item.save()
-        return HttpResponseRedirect('/viewcart/')
+            if not data:
+                item.quantity+=1
+                item.save()
+            return HttpResponseRedirect('/viewcart/')
     
 def cart_decrese(request):
-    if request.method == "GET":
-        cid = request.GET.get('cid')
-        item,data = Cart.objects.get_or_create(django_abc_id=cid)
-        print(item, data)
+    if request.user.is_authenticated:
+        if request.method == "GET":
+            cid = request.GET.get('cid')
+            item,data = Cart.objects.get_or_create(django_abc_id=cid)
+            print(item, data)
 
-        if not data:
-            item.quantity-=1
-            item.save()
-            if item.quantity<1:
-                item.delete()
+            if not data:
+                item.quantity-=1
+                item.save()
+                if item.quantity<1:
+                    item.delete()
 
-        return HttpResponseRedirect('/viewcart/')
+            return HttpResponseRedirect('/viewcart/')
 
     
 def view_cart(request):
-    cart_fetch = Cart.objects.all().values_list('django_abc_id', flat=True)
-    cartitems = django_abc.objects.filter(id__in=cart_fetch)
-    count = cartitems.count()
+    if request.user.is_authenticated:
+        cart_fetch = Cart.objects.filter(user_id=request.user).values_list('django_abc_id',flat=True)
+        print(cart_fetch)
+        # cart_fetch = Cart.objects.all().values_list('django_abc_id', flat=True)
+        cartitems = django_abc.objects.filter(id__in=cart_fetch)
+        username = request.user
+        # count = cartitems.count()
 
-    allq = Cart.objects.all()
-    print(cart_fetch)
-    return render(request,'viewcart.html', {'data':cartitems, 'count':count, 'quantity':allq})
+        # allq = Cart.objects.all()
+        # print(cart_fetch)
+        return render(request,'viewcart.html', {'data':cartitems,'user':username})
+    else:
+        return HttpResponseRedirect('/login/')
 
 def remove_cart(request,id):
-    if request.method == "POST":
-        os = Cart.objects.filter(django_abc_id=id)
-        print(os)
-        os.delete()
-        print(id)
-        return HttpResponseRedirect('/viewcart/')
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            os = Cart.objects.filter(django_abc_id=id)
+            print(os)
+            os.delete()
+            print(id)
+            return HttpResponseRedirect('/viewcart/')
     
 def SignUp(request):
     if request.method == "POST":
@@ -151,4 +165,6 @@ def Login(request):
     return render(request, 'login.html')
 
 
-
+def LogOut(request):
+    logout(request)
+    return HttpResponseRedirect('/login/')

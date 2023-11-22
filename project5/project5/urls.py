@@ -33,7 +33,8 @@ urlpatterns = [
     path('cartincrese/',views.cart_increse,name='cartincrese'),
     path('cartdecrese/',views.cart_decrese,name='cartdecrese'),
     path('signup/',views.SignUp, name='signup'),
-    path('login/',views.Login,name='login')
+    path('login/',views.Login,name='login'),
+    path('logout/',views.LogOut, name='logout')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

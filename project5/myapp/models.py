@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class django_abc(models.Model):
@@ -12,5 +13,6 @@ class django_abc(models.Model):
         return self.name
     
 class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     django_abc = models.ForeignKey(django_abc, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1, null=True)
