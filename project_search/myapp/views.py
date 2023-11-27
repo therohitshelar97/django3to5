@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Products
+from django.db.models import Q
 
 # Create your views here.
 
@@ -8,7 +9,7 @@ def Index(request):
         search = request.POST.get('search')
         print(search)
 
-        os = Products.objects.filter(pname__icontains=search)
+        os = Products.objects.filter(Q(pname__icontains=search)| Q(pprice__icontains=search) | Q(desc__icontains=search)|Q(category__icontains=search))
     
     else:
         os = Products.objects.all()

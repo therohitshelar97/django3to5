@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Index</title>
+</head>
+<body>
+    {% for i in data %}
+      
+        <a href="{% url 'ds' i.slug %}">{{i.name}}</a>
+
+    {% endfor %}
+</body>
+</html>
