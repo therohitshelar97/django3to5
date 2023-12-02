@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <style>
+        .hide{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    {% for i in data %}
+
+    <h1>Name:{{i.pname}}, price : {{i.price}}</h1>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="number" value={{i.id}} name="pid" class="hide"/>
+        <input type="submit" value="Add_To_Cart" />
+
+    </form>
+    <form action="{% url 'order_place' %}" method="post">
+        {% csrf_token %}
+        <input type="number" value={{i.id}} name="pid" class="hide" />
+        <input type="submit" value="Buy_Now" />
+        
+    </form>
+
+    {% endfor %}
+</body>
+</html>

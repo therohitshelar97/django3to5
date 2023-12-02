@@ -15,9 +15,21 @@ def GetSessionData(request):
     except:
         return HttpResponse(f"Session has been Expired")
     
+def Login1(request):
+    if request.method == 'POST':
+        username = request.POST.get('uname1')
+        password = request.POST.get('pass1')
+        # print(username, password)
+        request.session['username'] = username
+        # request.session.flush()
+        if request.session['username']:
+            return HttpResponseRedirect('/home/')
+    return render(request, 'login.html')
+
+    
 def Home(request):
     try:
-        if request.session['first_name']:
+        if request.session['username']:
             return render(request,'homepage.html')
     except:
-        return HttpResponseRedirect('/setsession/')
+        return HttpResponseRedirect('/login/')
