@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+import uuid
 
 # Create your models here.
 class Products(models.Model):
@@ -22,5 +24,19 @@ class Order(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE, null=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE,null=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE,null=True)
+    order_id = models.CharField(max_length=100, null=True, unique=True)
+
+    def save(self,*args,**kwargs):
+        if not self.order_id:
+            current_time = timezone.now()
+        
+            order_id = f'{current_time.strftime("%Y%d%m%H%M%S")}-{uuid.uuid4().hex[:6]}'
+            self.order_id = order_id
+        super().save(*args, **kwargs)
+
+
+
+
+
 
 
