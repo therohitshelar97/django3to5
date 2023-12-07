@@ -24,5 +24,6 @@ urlpatterns = [
     path('cart/',views.Cart1, name='cart'),
     path('order/',views.Order1, name='order'),
     path('order_place/',views.order_place, name='order_place'),
-    path('vieworder/',views.view_order, name='vieworder')
+    path('vieworder/',views.view_order, name='vieworder'),
+    path('address/',views.addAddress,name="address")
 ]

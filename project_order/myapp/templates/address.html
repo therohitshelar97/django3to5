@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Views Order</title>
+    <title>Address</title>
 </head>
 <body>
-    {% for i in product %}
-     <h1>Name:{{i.pname}}</h1>
+    {% if addr %}
+       
 
-     {% for i in address %}
+    {% for i in addr %}
 
     <h3>Address: {{i.address}}</h3>  
     <h3>City: {{i.city}}</h3>  
     <h3>pinecode: {{i.pinecode}}</h3>   
     <h3>Landmark: {{i.landmark}}</h3>  
+    <a href="{% url 'order' %}"><button>Continue</button></a>
     {% endfor %}
 
+    {% else %}
 
-    {% endfor %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Save_Address" />
+    </form>
 
-    <h2>Address</h2>
-    
+    {% endif %}
 </body>
 </html>
