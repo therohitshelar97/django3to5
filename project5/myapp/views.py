@@ -1,20 +1,29 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from .models import django_abc,Cart
 from .forms import abc_form, SignUp_Form
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
 
 def Fetch(request):
-    data = django_abc.objects.all()
-    return render(request,'index.html',{'data':data})
+    
+    try:
+        data = django_abc.objects.all()
+        # messages.success(request,"Data Enter SuccessFully")
+        return render(request,'index.html',{'data':data})
+    except:
+        messages.success(request,"Something went Wrong")
+        return render(request,'index.html')
+
 
 def Form(request):
     if request.method == "POST":
         fm = abc_form(request.POST,request.FILES)
         if fm.is_valid():
             fm.save()
+            messages.success(request,"Data Enter Succesfully")
             return HttpResponseRedirect('/fetching/')
     else:
         fm = abc_form()
@@ -26,6 +35,7 @@ def Update(request,id):
         fm = abc_form(request.POST, instance=pi)
         if fm.is_valid():
             fm.save()
+            messages.success(request,"Data Updated Successfully")
             return HttpResponseRedirect('/fetching/')
     else:
         pi = django_abc.objects.get(pk=id)

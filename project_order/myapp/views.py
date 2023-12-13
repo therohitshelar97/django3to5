@@ -39,5 +39,6 @@ def addAddress(request):
     else:
         fm = AddressForm()
     os = Address.objects.all()
-    return render(request,'address.html',{'form':fm,'addr':os})
+    os1 = Products.objects.all()
+    return render(request,'address.html',{'form':fm,'addr':os,'data':os1})
 

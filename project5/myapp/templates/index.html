@@ -13,7 +13,16 @@
 </head>
 <body>
     <h1>Home Page...</h1> 
-
+     {% if messages %}
+       {% for message in messages %}
+            <script>
+                // a = {
+                //     msg:'{{message}}'
+                // }
+                window.alert('{{message}}')
+            </script>
+       {% endfor %}
+     {% endif %}
    <table width="900">
     <tr>
         <th>ID</th>
